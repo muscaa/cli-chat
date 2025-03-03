@@ -1,0 +1,20 @@
+ext.subName = "server"
+
+apply plugin: "application"
+
+mainClassName = "muscaa.clichat.server.main.Main"
+application.setMainClass(mainClassName)
+
+dependencies {
+	shade project(":shared")
+}
+
+run {
+    standardInput = System.in
+}
+
+jar {
+	manifest {
+		attributes "Main-Class": mainClassName
+	}
+}

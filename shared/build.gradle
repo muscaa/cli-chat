@@ -1,0 +1,5 @@
+ext.subName = "shared"
+
+dependencies {
+	api "com.github.muscaa:fluff-network:1.0.7"
+}

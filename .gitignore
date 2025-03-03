@@ -1,0 +1,28 @@
+## Build:
+/bin/
+/build/
+/shared/bin/
+/shared/build/
+/client/bin/
+/client/build/
+/server/bin/
+/server/build/
+
+## Gradle:
+.gradle/
+
+## Java:
+*.class
+
+## IntelliJ:
+.idea/
+
+## Eclipse:
+.settings/
+.classpath
+.project
+*.launch
+
+## OS:
+.DS_Store
+Thumbs.db

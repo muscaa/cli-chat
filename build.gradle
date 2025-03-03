@@ -1,0 +1,70 @@
+allprojects {
+	apply plugin: "eclipse"
+	apply plugin: "idea"
+	
+	idea {
+		module {
+			outputDir file("build/classes/java/main")
+			testOutputDir file("build/classes/java/test")
+		}
+	}
+}
+
+configure(subprojects) {
+	apply plugin: "java-library"
+	apply plugin: "maven-publish"
+}
+
+subprojects {
+    beforeEvaluate {
+    	[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+    	
+    	sourceCompatibility = 17
+		targetCompatibility = 17
+    	
+        repositories {
+			mavenCentral()
+			maven { url "https://jitpack.io" }
+		}
+		
+		configurations {
+		    // shaded dependencies
+		    shade {
+				canBeResolved = true
+			    canBeConsumed = true
+			}
+		    
+		    compileClasspath.extendsFrom(shade)
+		    runtimeClasspath.extendsFrom(shade)
+		    testCompileClasspath.extendsFrom(shade)
+		    testRuntimeClasspath.extendsFrom(shade)
+		}
+    }
+    
+    afterEvaluate {
+        eclipse.project.name = "${projectName}-${subName}"
+        
+		jar {
+	        duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+			dependsOn configurations.shade
+			from {
+				configurations.shade.collect {
+					it.isDirectory() ? it : zipTree(it)
+				}
+			}
+		}
+		
+		java {
+			withSourcesJar()
+			withJavadocJar()
+		}
+		
+		publishing {
+			publications {
+				maven(MavenPublication) {
+					from components.java
+				}
+			}
+		}
+    }
+}
