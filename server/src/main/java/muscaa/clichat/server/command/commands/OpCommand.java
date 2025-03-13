@@ -8,6 +8,7 @@ import muscaa.clichat.server.command.ICommandSource;
 import muscaa.clichat.server.command.arguments.UserArgumentType;
 import muscaa.clichat.server.network.NetworkClientConnection;
 import muscaa.clichat.server.utils.ChatUtils;
+import muscaa.clichat.shared.utils.Utils;
 
 public class OpCommand {
 	
@@ -19,7 +20,7 @@ public class OpCommand {
 							NetworkClientConnection user = UserArgumentType.getUser(context, "user");
 							
 							user.setOp(true);
-							ChatUtils.broadcast(context.getSource().getName() + " opped " + user.getName(), NetworkClientConnection::isOp);
+							ChatUtils.broadcast(Utils.warn(context.getSource().getName() + " opped " + user.getName()), NetworkClientConnection::isOp);
 							
 							return Command.SINGLE_SUCCESS;
 						})

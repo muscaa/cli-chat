@@ -1,45 +1,57 @@
 package muscaa.clichat.client;
 
-import java.util.Scanner;
+import org.jline.jansi.Ansi;
 
 import muscaa.clichat.client.network.NetworkClient;
 import muscaa.clichat.shared.network.chat.packets.PacketMessage;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
+import muscaa.clichat.shared.utils.Utils;
 
 public class CLIChatClient {
 	
 	public static final CLIChatClient INSTANCE = new CLIChatClient();
 	
-	private boolean running;
-	private Scanner scanner;
+	private Thread mainThread;
 	public NetworkClient network;
 	
 	public void start() throws Exception {
-		running = true;
-		scanner = new Scanner(System.in);
+		mainThread = Thread.currentThread();
 		
-		System.out.print("Host: ");
-		String host = scanner.nextLine();
-		
-		System.out.print("Port: ");
-		int port = scanner.nextInt();
-		scanner.nextLine();
+		String host = Utils.read(Ansi.ansi()
+				.fgBrightBlue().a("Host: ")
+				.reset());
+		int port = Integer.parseInt(Utils.read(Ansi.ansi()
+				.fgBrightBlue().a("Port: ")
+				.reset()));
 		
 		network = new NetworkClient();
 		network.connect(host, port);
 		
-		System.out.print("Name: ");
-		String name = scanner.nextLine();
+		String name = Utils.read(Ansi.ansi()
+				.fgBrightBlue().a("Name: ")
+				.reset());
 		
 		network.send(new PacketLogin(name));
 		if (!waitForProfile()) return;
 		
-		System.out.println("Connected to " + host + ":" + port + " as " + network.getName());
-		System.out.println("Type '/dc' to disconnect.");
+		Utils.print(Ansi.ansi()
+				.fgBlue().a("Connected to ")
+				.fgBrightBlue().a(host + ":" + port)
+				.fgBlue().a(" as ")
+				.fgBrightBlue().a(network.getName())
+				.reset());
+		Utils.print(Ansi.ansi()
+				.fgBlue().a("Type '")
+				.fgBrightBlue().a("/dc")
+				.fgBlue().a("' to disconnect")
+				.reset());
         
 		try {
-			while (running && network.isConnected()) {
-				String line = scanner.nextLine();
+			while (!mainThread.isInterrupted() && network.isConnected()) {
+				String line = Utils.read(Ansi.ansi()
+						.fgBrightBlack().a(">> ")
+						.reset());
+				if (line == null) break;
 				if (line.equals("/dc")) break;
 				
 				network.send(new PacketMessage(line));
@@ -50,7 +62,7 @@ public class CLIChatClient {
 	}
 	
 	public void stop() {
-		running = false;
+		mainThread.interrupt();
 	}
 	
 	private boolean waitForProfile() {
@@ -73,7 +85,7 @@ public class CLIChatClient {
 		if (network.getName() == null) {
 			network.disconnect();
 			
-			System.out.println("Timed out while waiting for profile.");
+			Utils.print(Utils.error("Timed out while waiting for profile."));
 			
 			return false;
 		}

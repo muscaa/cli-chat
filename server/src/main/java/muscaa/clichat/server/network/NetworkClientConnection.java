@@ -2,6 +2,8 @@ package muscaa.clichat.server.network;
 
 import java.util.UUID;
 
+import org.jline.jansi.Ansi;
+
 import fluff.network.INetHandler;
 import fluff.network.NetworkException;
 import fluff.network.packet.IPacketChannel;
@@ -16,6 +18,7 @@ import muscaa.clichat.server.utils.ChatUtils;
 import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
 import muscaa.clichat.shared.network.common.packets.PacketDisconnect;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
+import muscaa.clichat.shared.utils.Utils;
 
 public class NetworkClientConnection extends AbstractClientConnection implements TimeoutModule.TimeoutListener, ICommandSource {
 	
@@ -59,14 +62,19 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	public void onConnectionEstablished() throws NetworkException {
 		send(new PacketProfile(name));
 		
-		ChatUtils.broadcast(name + " has joined.");
+		ChatUtils.broadcast(Utils.info(name + " has joined."));
 		
 		setContext(ServerContexts.CHAT, new ServerChatNetHandler());
 	}
 	
 	@Override
 	public void onConnect() throws NetworkException {
-		CLIChatServer.INSTANCE.console.addChatLine("Connection from " + socket.getInetAddress() + ":" + socket.getPort() + " - " + socket.getLocalAddress() + ":" + socket.getLocalPort());
+		ChatUtils.broadcast(Ansi.ansi()
+				.fgBlue().a("Connection from ")
+				.fgBrightBlue().a(socket.getInetAddress() + ":" + socket.getPort())
+				.fgBlue().a(" - ")
+				.fgBrightBlue().a(socket.getLocalAddress() + ":" + socket.getLocalPort())
+				.reset(), NetworkClientConnection::isOp);
 		
 		super.onConnect();
 	}
@@ -76,7 +84,7 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 		super.onDisconnect();
 		
 		if (name != null) {
-			ChatUtils.broadcast(name + " has left.");
+			ChatUtils.broadcast(Utils.warn(name + " has left."));
 		}
 	}
 	

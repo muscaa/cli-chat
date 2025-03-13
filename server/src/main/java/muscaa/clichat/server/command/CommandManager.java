@@ -11,6 +11,7 @@ import muscaa.clichat.server.command.commands.OpCommand;
 import muscaa.clichat.server.command.commands.PingCommand;
 import muscaa.clichat.server.command.commands.StopCommand;
 import muscaa.clichat.server.command.commands.WhisperCommand;
+import muscaa.clichat.shared.utils.Utils;
 
 public class CommandManager {
 	
@@ -35,9 +36,9 @@ public class CommandManager {
 			int result = dispatcher.execute(command, source);
 			if (result == Command.SINGLE_SUCCESS) return true;
 			
-			source.addChatLine("Invalid command.");
+			source.addChatLine(Utils.error("Invalid command."));
 		} catch (CommandSyntaxException e) {
-			source.addChatLine(e.getMessage());
+			source.addChatLine(Utils.error(e.getMessage()));
 		}
 		return false;
 	}

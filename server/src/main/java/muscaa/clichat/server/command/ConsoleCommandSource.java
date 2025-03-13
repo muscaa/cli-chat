@@ -1,10 +1,12 @@
 package muscaa.clichat.server.command;
 
+import muscaa.clichat.shared.utils.Utils;
+
 public class ConsoleCommandSource implements ICommandSource {
 	
 	@Override
 	public void addChatLine(String line) {
-		System.out.println(line);
+		Utils.print(line);
 	}
 	
 	@Override
