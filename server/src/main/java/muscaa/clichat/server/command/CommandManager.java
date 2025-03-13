@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import fluff.functions.gen.obj.Func1;
 import muscaa.clichat.server.command.commands.DeopCommand;
+import muscaa.clichat.server.command.commands.KickCommand;
 import muscaa.clichat.server.command.commands.OpCommand;
 import muscaa.clichat.server.command.commands.PingCommand;
 import muscaa.clichat.server.command.commands.StopCommand;
@@ -22,6 +23,7 @@ public class CommandManager {
 		register(StopCommand::create, "stop");
 		register(OpCommand::create, "op");
 		register(DeopCommand::create, "deop");
+		register(KickCommand::create, "kick");
 		register(WhisperCommand::create, "whisper", "w");
 	}
 	
