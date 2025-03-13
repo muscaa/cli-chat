@@ -1,7 +1,6 @@
 package muscaa.clichat.server.network;
 
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import fluff.network.INetHandler;
 import fluff.network.NetworkException;
@@ -11,16 +10,18 @@ import fluff.network.server.AbstractClientConnection;
 import fluff.network.server.AbstractServer;
 import fluff.network.server.modules.TimeoutModule;
 import muscaa.clichat.server.CLIChatServer;
+import muscaa.clichat.server.command.ICommandSource;
 import muscaa.clichat.server.network.chat.ServerChatNetHandler;
+import muscaa.clichat.server.utils.ChatUtils;
+import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
 import muscaa.clichat.shared.network.common.packets.PacketDisconnect;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
 
-public class NetworkClientConnection extends AbstractClientConnection implements TimeoutModule.TimeoutListener {
-	
-	private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9 ]+$");
+public class NetworkClientConnection extends AbstractClientConnection implements TimeoutModule.TimeoutListener, ICommandSource {
 	
 	private UUID uuid;
 	private String name;
+	private boolean op;
 	
 	public NetworkClientConnection(AbstractServer server, PacketContext<?> context, INetHandler handler, IPacketChannel channel) {
 		super(server);
@@ -32,7 +33,7 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	public void login(String name) {
 		if (this.name != null) return;
 		
-		if (name.equalsIgnoreCase("CONSOLE") || !NAME_PATTERN.matcher(name).matches()) {
+		if (name.equalsIgnoreCase(CLIChatServer.INSTANCE.console.getName()) || !CLIChatServer.NAME_PATTERN.matcher(name).matches()) {
 			disconnect("Invalid name!");
 			return;
 		}
@@ -58,14 +59,14 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	public void onConnectionEstablished() throws NetworkException {
 		send(new PacketProfile(name));
 		
-		CLIChatServer.INSTANCE.chat(name + " has joined.");
+		ChatUtils.broadcast(name + " has joined.");
 		
 		setContext(ServerContexts.CHAT, new ServerChatNetHandler());
 	}
 	
 	@Override
 	public void onConnect() throws NetworkException {
-		System.out.println("Connection from " + socket.getInetAddress() + ":" + socket.getPort() + " - " + socket.getLocalAddress() + ":" + socket.getLocalPort());
+		CLIChatServer.INSTANCE.console.addChatLine("Connection from " + socket.getInetAddress() + ":" + socket.getPort() + " - " + socket.getLocalAddress() + ":" + socket.getLocalPort());
 		
 		super.onConnect();
 	}
@@ -75,7 +76,7 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 		super.onDisconnect();
 		
 		if (name != null) {
-			CLIChatServer.INSTANCE.chat(name + " has left.");
+			ChatUtils.broadcast(name + " has left.");
 		}
 	}
 	
@@ -89,7 +90,22 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 		return uuid;
 	}
 	
+	@Override
+	public void addChatLine(String line) {
+		send(new PacketChatLine(line));
+	}
+	
+	@Override
 	public String getName() {
 		return name;
+	}
+	
+	@Override
+	public boolean isOp() {
+		return op;
+	}
+	
+	public void setOp(boolean op) {
+		this.op = op;
 	}
 }

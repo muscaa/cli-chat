@@ -10,36 +10,47 @@ public class CLIChatClient {
 	
 	public static final CLIChatClient INSTANCE = new CLIChatClient();
 	
+	private boolean running;
+	private Scanner scanner;
 	public NetworkClient network;
 	
-	public void start(Scanner s) throws Exception {
+	public void start() throws Exception {
+		running = true;
+		scanner = new Scanner(System.in);
+		
 		System.out.print("Host: ");
-		String host = s.nextLine();
+		String host = scanner.nextLine();
 		
 		System.out.print("Port: ");
-		int port = s.nextInt();
-		s.nextLine();
+		int port = scanner.nextInt();
+		scanner.nextLine();
 		
 		network = new NetworkClient();
 		network.connect(host, port);
 		
 		System.out.print("Name: ");
-		String name = s.nextLine();
+		String name = scanner.nextLine();
 		
 		network.send(new PacketLogin(name));
 		if (!waitForProfile()) return;
 		
 		System.out.println("Connected to " + host + ":" + port + " as " + network.getName());
-		System.out.println("Type 'stop' to disconnect.");
+		System.out.println("Type '/dc' to disconnect.");
         
-		while (s.hasNextLine() && network.isConnected()) {
-			String line = s.nextLine();
-			if (line.equals("stop")) break;
-			
-			network.send(new PacketMessage(line));
-		}
+		try {
+			while (running && network.isConnected()) {
+				String line = scanner.nextLine();
+				if (line.equals("/dc")) break;
+				
+				network.send(new PacketMessage(line));
+			}
+		} catch (IllegalStateException e) {}
 		
 		network.disconnect();
+	}
+	
+	public void stop() {
+		running = false;
 	}
 	
 	private boolean waitForProfile() {

@@ -1,5 +1,6 @@
 package muscaa.clichat.server.network;
 
+import java.util.Set;
 import java.util.UUID;
 
 import fluff.network.NetworkException;
@@ -35,6 +36,21 @@ public class NetworkServer extends AbstractServer {
 	public void disconnectAll() {
 		sendAll(new PacketDisconnect("Server stopped!"));
 		super.disconnectAll();
+	}
+	
+	@Override
+	public Set<UUID> getUUIDKeys() {
+		return super.getUUIDKeys();
+	}
+	
+	public NetworkClientConnection getConnection(UUID uuid) {
+		return (NetworkClientConnection) connections.get(uuid);
+	}
+	
+	public NetworkClientConnection getConnection(String name) {
+		UUID uuid = UUID.nameUUIDFromBytes(name.getBytes());
+		
+		return getConnection(uuid);
 	}
 	
 	public boolean isConnected(UUID uuid) {

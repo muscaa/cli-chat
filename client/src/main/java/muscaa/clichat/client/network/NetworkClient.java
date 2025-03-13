@@ -10,6 +10,7 @@ import fluff.network.client.ClientErrorType;
 import fluff.network.packet.IPacketOutbound;
 import fluff.network.packet.PacketContext;
 import fluff.network.packet.channels.DefaultPacketChannel;
+import muscaa.clichat.client.CLIChatClient;
 import muscaa.clichat.client.network.login.ClientLoginNetHandler;
 
 public class NetworkClient extends AbstractClient {
@@ -44,7 +45,8 @@ public class NetworkClient extends AbstractClient {
 	public void disconnect() {
 		if (!isConnected()) return;
 		
-		//super.send(new PacketDisconnect("disconnected"));
+		CLIChatClient.INSTANCE.stop();
+		
 		super.disconnect();
 	}
 	
