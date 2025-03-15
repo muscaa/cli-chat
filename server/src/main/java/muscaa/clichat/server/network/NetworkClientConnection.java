@@ -17,7 +17,7 @@ import muscaa.clichat.server.command.IServerCommandSource;
 import muscaa.clichat.server.network.chat.ServerChatNetHandler;
 import muscaa.clichat.server.utils.ChatUtils;
 import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandResponse;
+import muscaa.clichat.shared.network.chat.packets.PacketCommandOutput;
 import muscaa.clichat.shared.network.common.packets.PacketDisconnect;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
 import muscaa.clichat.shared.utils.Utils;
@@ -103,22 +103,22 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	
 	@Override
 	public void log(Object o) {
-		send(new PacketCommandResponse(Objects.toString(o)));
+		send(new PacketCommandOutput(Objects.toString(o)));
 	}
 	
 	@Override
 	public void info(Object o) {
-		send(new PacketCommandResponse(Utils.info(o)));
+		send(new PacketCommandOutput(Utils.info(o)));
 	}
 	
 	@Override
 	public void warn(Object o) {
-		send(new PacketCommandResponse(Utils.warn(o)));
+		send(new PacketCommandOutput(Utils.warn(o)));
 	}
 	
 	@Override
 	public void error(Object o) {
-		send(new PacketCommandResponse(Utils.error(o)));
+		send(new PacketCommandOutput(Utils.error(o)));
 	}
 	
 	@Override

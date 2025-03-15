@@ -16,6 +16,14 @@ public class CommandPing extends AbstractCommand<ServerCommander, IServerCommand
 	public int onAction(ServerCommander c, IServerCommandSource source, CommandArguments args) throws CommandException {
 		source.info("Pong!");
 		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		source.info("Done!");
+		
 		return SUCCESS;
 	}
 }

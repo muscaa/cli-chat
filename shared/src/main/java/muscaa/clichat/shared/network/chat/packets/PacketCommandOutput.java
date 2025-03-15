@@ -6,15 +6,15 @@ import fluff.bin.IBinaryInput;
 import fluff.bin.IBinaryOutput;
 import fluff.network.packet.IPacket;
 
-public class PacketCommandResponse implements IPacket {
+public class PacketCommandOutput implements IPacket {
 	
 	private String response;
 	
-	public PacketCommandResponse(String response) {
+	public PacketCommandOutput(String response) {
 		this.response = response;
 	}
 	
-	public PacketCommandResponse() {}
+	public PacketCommandOutput() {}
 	
 	@Override
 	public void readData(IBinaryInput in) throws IOException {

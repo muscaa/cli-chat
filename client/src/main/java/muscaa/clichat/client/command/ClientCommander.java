@@ -1,5 +1,8 @@
 package muscaa.clichat.client.command;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import fluff.commander.CommanderException;
 import fluff.commander.arg.IArgumentInput;
 import fluff.commander.arg.StringArgumentInput;
@@ -10,6 +13,8 @@ import muscaa.clichat.shared.command.BasicCommander;
 import muscaa.clichat.shared.network.chat.packets.PacketCommand;
 
 public class ClientCommander extends BasicCommander<ClientCommander, IClientCommandSource> {
+	
+	public CompletableFuture<Boolean> commandFuture;
 	
 	@Override
 	public void init() {
@@ -31,6 +36,15 @@ public class ClientCommander extends BasicCommander<ClientCommander, IClientComm
 			return;
 		}
 		
+		commandFuture = new CompletableFuture<>();
+		
 		CLIChatClient.INSTANCE.network.send(new PacketCommand(source.direct(), input));
+		
+		try {
+			commandFuture.get();
+		} catch (InterruptedException | ExecutionException e) {
+			source.error(e.getMessage());
+		}
+		commandFuture = null;
 	}
 }

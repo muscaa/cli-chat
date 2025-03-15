@@ -1,8 +1,5 @@
 package muscaa.clichat.server.command;
 
-import fluff.commander.CommanderException;
-import fluff.commander.arg.IArgumentInput;
-import fluff.commander.arg.StringArgumentInput;
 import muscaa.clichat.server.command.commands.CommandDeop;
 import muscaa.clichat.server.command.commands.CommandKick;
 import muscaa.clichat.server.command.commands.CommandOp;
@@ -23,15 +20,5 @@ public class ServerCommander extends BasicCommander<ServerCommander, IServerComm
 		command(new CommandDeop());
 		command(new CommandKick());
 		command(new CommandWhisper());
-	}
-	
-	public void execute(IServerCommandSource source, String input) {
-		try {
-			IArgumentInput in = new StringArgumentInput(input);
-			
-			super.execute(source, in);
-		} catch (CommanderException e) {
-			source.error(e.getMessage());
-		}
 	}
 }
