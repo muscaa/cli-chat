@@ -2,6 +2,9 @@ package muscaa.clichat.client;
 
 import org.jline.jansi.Ansi;
 
+import muscaa.clichat.client.command.ClientCommander;
+import muscaa.clichat.client.command.ClientConsoleCommandSource;
+import muscaa.clichat.client.command.IClientCommandSource;
 import muscaa.clichat.client.network.NetworkClient;
 import muscaa.clichat.shared.network.chat.packets.PacketMessage;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
@@ -12,6 +15,9 @@ public class CLIChatClient {
 	public static final CLIChatClient INSTANCE = new CLIChatClient();
 	
 	private Thread mainThread;
+	public boolean inChat;
+	public ClientCommander commander;
+	public IClientCommandSource console;
 	public NetworkClient network;
 	
 	public void start() throws Exception {
@@ -23,6 +29,10 @@ public class CLIChatClient {
 		int port = Integer.parseInt(Utils.read(Ansi.ansi()
 				.fgBrightBlue().a("Port: ")
 				.reset()));
+		
+		inChat = true;
+		commander = new ClientCommander();
+		console = new ClientConsoleCommandSource();
 		
 		network = new NetworkClient();
 		network.connect(host, port);
@@ -52,7 +62,17 @@ public class CLIChatClient {
 						.fgBrightBlack().a(">> ")
 						.reset());
 				if (line == null) break;
-				if (line.equals("/dc")) break;
+				
+				if (!inChat) {
+					commander.execute(console, line);
+					continue;
+				}
+				
+				String command = commander.chatCommand(line);
+				if (command != null) {
+					commander.execute(console, command);
+					continue;
+				}
 				
 				network.send(new PacketMessage(line));
 			}

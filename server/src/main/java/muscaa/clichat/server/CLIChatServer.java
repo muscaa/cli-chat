@@ -4,9 +4,9 @@ import java.util.regex.Pattern;
 
 import org.jline.jansi.Ansi;
 
-import muscaa.clichat.server.command.CommandManager;
-import muscaa.clichat.server.command.ConsoleCommandSource;
-import muscaa.clichat.server.command.ICommandSource;
+import muscaa.clichat.server.command.IServerCommandSource;
+import muscaa.clichat.server.command.ServerCommander;
+import muscaa.clichat.server.command.ServerConsoleCommandSource;
 import muscaa.clichat.server.network.NetworkClientConnection;
 import muscaa.clichat.server.network.NetworkServer;
 import muscaa.clichat.server.utils.ChatUtils;
@@ -19,8 +19,9 @@ public class CLIChatServer {
 	public static final CLIChatServer INSTANCE = new CLIChatServer();
 	
 	private Thread mainThread;
-	public CommandManager commands;
-	public ICommandSource console;
+	public boolean inChat;
+	public ServerCommander commander;
+	public IServerCommandSource console;
 	public NetworkServer network;
 	
 	public void start() throws Exception {
@@ -30,8 +31,9 @@ public class CLIChatServer {
 				.fgBrightBlue().a("Port: ")
 				.reset()));
 		
-		commands = new CommandManager();
-		console = new ConsoleCommandSource();
+		inChat = true;
+		commander = new ServerCommander();
+		console = new ServerConsoleCommandSource();
 		
 		network = new NetworkServer(port);
 		network.start(true);
@@ -52,10 +54,15 @@ public class CLIChatServer {
 						.fgBrightBlack().a(">> ")
 						.reset());
 				if (line == null) break;
-	            
-				String command = CLIChatServer.INSTANCE.commands.parseCommand(line);
+				
+				if (!inChat) {
+					commander.execute(console, line);
+					continue;
+				}
+				
+				String command = commander.chatCommand(line);
 				if (command != null) {
-					CLIChatServer.INSTANCE.commands.execute(console, command);
+					commander.execute(console, command);
 					continue;
 				}
 				

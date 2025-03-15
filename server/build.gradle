@@ -5,14 +5,8 @@ apply plugin: "application"
 mainClassName = "muscaa.clichat.server.main.Main"
 application.setMainClass(mainClassName)
 
-repositories {
-	maven { url "https://libraries.minecraft.net" }
-}
-
 dependencies {
 	shade project(":shared")
-	
-	shade "com.mojang:brigadier:1.0.18"
 }
 
 run {

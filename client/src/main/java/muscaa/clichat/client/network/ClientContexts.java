@@ -6,6 +6,8 @@ import muscaa.clichat.client.network.common.IClientCommonNetHandler;
 import muscaa.clichat.client.network.login.IClientLoginNetHandler;
 import muscaa.clichat.shared.network.SharedContexts;
 import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
+import muscaa.clichat.shared.network.chat.packets.PacketCommand;
+import muscaa.clichat.shared.network.chat.packets.PacketCommandResponse;
 import muscaa.clichat.shared.network.chat.packets.PacketMessage;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
@@ -37,5 +39,7 @@ public class ClientContexts {
 					.extend(COMMON)
 					.registerOutbound(200, PacketMessage.class)
 					.registerInbound(201, PacketChatLine::new, IClientChatNetHandler::onPacketChatLine)
+					.registerOutbound(202, PacketCommand.class)
+					.registerInbound(203, PacketCommandResponse::new, IClientChatNetHandler::onPacketCommandResponse)
 			;
 }

@@ -1,5 +1,6 @@
 package muscaa.clichat.server.network;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import org.jline.jansi.Ansi;
@@ -12,19 +13,21 @@ import fluff.network.server.AbstractClientConnection;
 import fluff.network.server.AbstractServer;
 import fluff.network.server.modules.TimeoutModule;
 import muscaa.clichat.server.CLIChatServer;
-import muscaa.clichat.server.command.ICommandSource;
+import muscaa.clichat.server.command.IServerCommandSource;
 import muscaa.clichat.server.network.chat.ServerChatNetHandler;
 import muscaa.clichat.server.utils.ChatUtils;
 import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
+import muscaa.clichat.shared.network.chat.packets.PacketCommandResponse;
 import muscaa.clichat.shared.network.common.packets.PacketDisconnect;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
 import muscaa.clichat.shared.utils.Utils;
 
-public class NetworkClientConnection extends AbstractClientConnection implements TimeoutModule.TimeoutListener, ICommandSource {
+public class NetworkClientConnection extends AbstractClientConnection implements TimeoutModule.TimeoutListener, IServerCommandSource {
 	
 	private UUID uuid;
 	private String name;
 	private boolean op;
+	private boolean direct;
 	
 	public NetworkClientConnection(AbstractServer server, PacketContext<?> context, INetHandler handler, IPacketChannel channel) {
 		super(server);
@@ -96,6 +99,35 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	@Override
 	public UUID getUUID() {
 		return uuid;
+	}
+	
+	@Override
+	public void log(Object o) {
+		send(new PacketCommandResponse(Objects.toString(o)));
+	}
+	
+	@Override
+	public void info(Object o) {
+		send(new PacketCommandResponse(Utils.info(o)));
+	}
+	
+	@Override
+	public void warn(Object o) {
+		send(new PacketCommandResponse(Utils.warn(o)));
+	}
+	
+	@Override
+	public void error(Object o) {
+		send(new PacketCommandResponse(Utils.error(o)));
+	}
+	
+	@Override
+	public boolean direct() {
+		return direct;
+	}
+	
+	public void setDirect(boolean direct) {
+		this.direct = direct;
 	}
 	
 	@Override
