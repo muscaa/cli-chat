@@ -1,7 +1,7 @@
 package muscaa.clichat.server.command.commands;
 
-import fluff.commander.arg.ArgumentBuilder;
-import fluff.commander.arg.IArgument;
+import fluff.commander.argument.ArgumentBuilder;
+import fluff.commander.argument.IArgument;
 import fluff.commander.command.AbstractCommand;
 import fluff.commander.command.CommandArguments;
 import fluff.commander.command.CommandException;

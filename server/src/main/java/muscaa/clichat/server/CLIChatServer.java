@@ -4,8 +4,8 @@ import java.util.regex.Pattern;
 
 import org.jline.jansi.Ansi;
 
-import fluff.commander.arg.ArgumentException;
-import fluff.commander.arg.StringArgumentInput;
+import fluff.commander.argument.ArgumentException;
+import fluff.commander.argument.StringArgumentInput;
 import fluff.commander.command.CommandException;
 import muscaa.clichat.server.command.IServerCommandSource;
 import muscaa.clichat.server.command.ServerCommander;

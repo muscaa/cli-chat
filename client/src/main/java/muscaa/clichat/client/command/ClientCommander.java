@@ -4,8 +4,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import fluff.commander.CommanderException;
-import fluff.commander.arg.IArgumentInput;
-import fluff.commander.arg.StringArgumentInput;
+import fluff.commander.argument.IArgumentInput;
+import fluff.commander.argument.StringArgumentInput;
 import fluff.commander.command.ICommand;
 import muscaa.clichat.client.CLIChatClient;
 import muscaa.clichat.client.command.commands.CommandDisconnect;
