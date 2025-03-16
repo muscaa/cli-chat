@@ -2,7 +2,7 @@ package muscaa.clichat.shared.command;
 
 import fluff.commander.command.ICommandSource;
 
-public interface IBasicCommandSource extends ICommandSource {
+public interface ISharedCommandSource extends ICommandSource {
 	
 	void log(Object o);
 	
@@ -12,5 +12,5 @@ public interface IBasicCommandSource extends ICommandSource {
 	
 	void error(Object o);
 	
-	boolean direct();
+	boolean isCommandMode();
 }

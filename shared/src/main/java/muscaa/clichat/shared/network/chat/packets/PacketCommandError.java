@@ -8,11 +8,25 @@ import fluff.network.packet.IPacket;
 
 public class PacketCommandError implements IPacket {
 	
+	private String error;
+	
+	public PacketCommandError(String error) {
+		this.error = error;
+	}
+	
 	public PacketCommandError() {}
 	
 	@Override
-	public void readData(IBinaryInput in) throws IOException {}
+	public void readData(IBinaryInput in) throws IOException {
+		error = in.LenString();
+	}
 	
 	@Override
-	public void writeData(IBinaryOutput out) throws IOException {}
+	public void writeData(IBinaryOutput out) throws IOException {
+		out.LenString(error);
+	}
+	
+	public String getError() {
+		return error;
+	}
 }

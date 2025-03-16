@@ -3,13 +3,13 @@ package muscaa.clichat.server.command;
 import org.jline.jansi.Ansi;
 
 import muscaa.clichat.server.CLIChatServer;
-import muscaa.clichat.shared.command.BasicConsoleCommandSource;
+import muscaa.clichat.shared.command.AbstractConsoleCommandSource;
 import muscaa.clichat.shared.utils.Utils;
 
-public class ServerConsoleCommandSource extends BasicConsoleCommandSource implements IServerCommandSource {
+public class ServerConsoleCommandSource extends AbstractConsoleCommandSource implements IServerCommandSource {
 	
 	@Override
-	public boolean direct() {
+	public boolean isCommandMode() {
 		return !CLIChatServer.INSTANCE.inChat;
 	}
 	

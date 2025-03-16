@@ -8,11 +8,11 @@ import fluff.network.packet.IPacket;
 
 public class PacketCommand implements IPacket {
 	
-	private boolean direct;
+	private boolean commandMode;
 	private String command;
 	
-	public PacketCommand(boolean direct, String command) {
-		this.direct = direct;
+	public PacketCommand(boolean commandMode, String command) {
+		this.commandMode = commandMode;
 		this.command = command;
 	}
 	
@@ -20,18 +20,18 @@ public class PacketCommand implements IPacket {
 	
 	@Override
 	public void readData(IBinaryInput in) throws IOException {
-		direct = in.Boolean();
+		commandMode = in.Boolean();
 		command = in.LenString();
 	}
 	
 	@Override
 	public void writeData(IBinaryOutput out) throws IOException {
-		out.Boolean(direct);
+		out.Boolean(commandMode);
 		out.LenString(command);
 	}
 	
-	public boolean isDirect() {
-		return direct;
+	public boolean isCommandMode() {
+		return commandMode;
 	}
 	
 	public String getCommand() {

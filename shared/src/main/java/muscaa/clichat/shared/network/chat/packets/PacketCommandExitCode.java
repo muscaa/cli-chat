@@ -6,15 +6,15 @@ import fluff.bin.IBinaryInput;
 import fluff.bin.IBinaryOutput;
 import fluff.network.packet.IPacket;
 
-public class PacketCommandResult implements IPacket {
+public class PacketCommandExitCode implements IPacket {
 	
 	private int exitCode;
 	
-	public PacketCommandResult(int exitCode) {
+	public PacketCommandExitCode(int exitCode) {
 		this.exitCode = exitCode;
 	}
 	
-	public PacketCommandResult() {}
+	public PacketCommandExitCode() {}
 	
 	@Override
 	public void readData(IBinaryInput in) throws IOException {

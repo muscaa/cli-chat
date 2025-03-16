@@ -2,7 +2,7 @@ package muscaa.clichat.shared.command;
 
 import muscaa.clichat.shared.utils.Utils;
 
-public abstract class BasicConsoleCommandSource implements IBasicCommandSource {
+public abstract class AbstractConsoleCommandSource implements ISharedCommandSource {
 	
 	@Override
 	public void log(Object o) {

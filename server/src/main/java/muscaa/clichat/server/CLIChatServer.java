@@ -4,9 +4,6 @@ import java.util.regex.Pattern;
 
 import org.jline.jansi.Ansi;
 
-import fluff.commander.argument.ArgumentException;
-import fluff.commander.argument.StringArgumentInput;
-import fluff.commander.command.CommandException;
 import muscaa.clichat.server.command.IServerCommandSource;
 import muscaa.clichat.server.command.ServerCommander;
 import muscaa.clichat.server.command.ServerConsoleCommandSource;
@@ -59,21 +56,13 @@ public class CLIChatServer {
 				if (line == null) break;
 				
 				if (!inChat) {
-					try {
-						commander.execute(console, new StringArgumentInput(line));
-					} catch (CommandException | ArgumentException e) {
-						console.error(e.getMessage());
-					}
+					commander.execute(console, line);
 					continue;
 				}
 				
-				String command = commander.chatCommand(line);
+				String command = commander.getChatCommand(line);
 				if (command != null) {
-					try {
-						commander.execute(console, new StringArgumentInput(command));
-					} catch (CommandException | ArgumentException e) {
-						console.error(e.getMessage());
-					}
+					commander.execute(console, command);
 					continue;
 				}
 				

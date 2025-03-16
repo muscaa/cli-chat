@@ -6,7 +6,7 @@ import muscaa.clichat.client.command.ClientCommander;
 import muscaa.clichat.client.command.ClientConsoleCommandSource;
 import muscaa.clichat.client.command.IClientCommandSource;
 import muscaa.clichat.client.network.NetworkClient;
-import muscaa.clichat.shared.network.chat.packets.PacketMessage;
+import muscaa.clichat.shared.network.chat.packets.PacketChatMessage;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
 import muscaa.clichat.shared.utils.Utils;
 
@@ -68,13 +68,13 @@ public class CLIChatClient {
 					continue;
 				}
 				
-				String command = commander.chatCommand(line);
+				String command = commander.getChatCommand(line);
 				if (command != null) {
 					commander.execute(console, command);
 					continue;
 				}
 				
-				network.send(new PacketMessage(line));
+				network.send(new PacketChatMessage(line));
 			}
 		} catch (IllegalStateException e) {}
 		

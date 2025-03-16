@@ -27,7 +27,7 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	private UUID uuid;
 	private String name;
 	private boolean op;
-	private boolean direct;
+	private boolean commandMode;
 	
 	public NetworkClientConnection(AbstractServer server, PacketContext<?> context, INetHandler handler, IPacketChannel channel) {
 		super(server);
@@ -122,12 +122,12 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	}
 	
 	@Override
-	public boolean direct() {
-		return direct;
+	public boolean isCommandMode() {
+		return commandMode;
 	}
 	
-	public void setDirect(boolean direct) {
-		this.direct = direct;
+	public void setCommandMode(boolean commandMode) {
+		this.commandMode = commandMode;
 	}
 	
 	@Override

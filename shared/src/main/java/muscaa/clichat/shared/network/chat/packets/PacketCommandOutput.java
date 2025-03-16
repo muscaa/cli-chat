@@ -8,25 +8,25 @@ import fluff.network.packet.IPacket;
 
 public class PacketCommandOutput implements IPacket {
 	
-	private String response;
+	private String output;
 	
-	public PacketCommandOutput(String response) {
-		this.response = response;
+	public PacketCommandOutput(String output) {
+		this.output = output;
 	}
 	
 	public PacketCommandOutput() {}
 	
 	@Override
 	public void readData(IBinaryInput in) throws IOException {
-		response = in.LenString();
+		output = in.LenString();
 	}
 	
 	@Override
 	public void writeData(IBinaryOutput out) throws IOException {
-		out.LenString(response);
+		out.LenString(output);
 	}
 	
-	public String getResponse() {
-		return response;
+	public String getOutput() {
+		return output;
 	}
 }

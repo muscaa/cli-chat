@@ -7,7 +7,7 @@ import muscaa.clichat.client.network.common.ClientCommonNetHandler;
 import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
 import muscaa.clichat.shared.network.chat.packets.PacketCommandError;
 import muscaa.clichat.shared.network.chat.packets.PacketCommandOutput;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandResult;
+import muscaa.clichat.shared.network.chat.packets.PacketCommandExitCode;
 import muscaa.clichat.shared.utils.Utils;
 
 public class ClientChatNetHandler extends ClientCommonNetHandler implements IClientChatNetHandler {
@@ -19,20 +19,16 @@ public class ClientChatNetHandler extends ClientCommonNetHandler implements ICli
 	
 	@Override
 	public void onPacketCommandOutput(PacketCommandOutput packet) {
-		Utils.print(packet.getResponse());
+		Utils.print(packet.getOutput());
 	}
 	
 	@Override
-	public void onPacketCommandResult(PacketCommandResult packet) {
-		Utils.print(packet.getExitCode());
-		
-		CLIChatClient.INSTANCE.commander.commandFuture.complete(true);
+	public void onPacketCommandExitCode(PacketCommandExitCode packet) {
+		CLIChatClient.INSTANCE.commander.complete(packet.getExitCode());
 	}
 	
 	@Override
 	public void onPacketCommandError(PacketCommandError packet) {
-		Utils.print("error");
-		
-		CLIChatClient.INSTANCE.commander.commandFuture.complete(false);
+		CLIChatClient.INSTANCE.commander.complete(packet.getError());
 	}
 }

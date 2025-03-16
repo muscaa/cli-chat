@@ -6,15 +6,15 @@ import fluff.bin.IBinaryInput;
 import fluff.bin.IBinaryOutput;
 import fluff.network.packet.IPacket;
 
-public class PacketMessage implements IPacket {
+public class PacketChatMessage implements IPacket {
 	
 	private String message;
 	
-	public PacketMessage(String message) {
+	public PacketChatMessage(String message) {
 		this.message = message;
 	}
 	
-	public PacketMessage() {}
+	public PacketChatMessage() {}
 	
 	@Override
 	public void readData(IBinaryInput in) throws IOException {

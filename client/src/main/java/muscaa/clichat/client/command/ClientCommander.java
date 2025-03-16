@@ -1,7 +1,6 @@
 package muscaa.clichat.client.command;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import fluff.commander.CommanderException;
 import fluff.commander.argument.IArgumentInput;
@@ -9,12 +8,15 @@ import fluff.commander.argument.StringArgumentInput;
 import fluff.commander.command.ICommand;
 import muscaa.clichat.client.CLIChatClient;
 import muscaa.clichat.client.command.commands.CommandDisconnect;
-import muscaa.clichat.shared.command.BasicCommander;
+import muscaa.clichat.shared.command.AbstractCommander;
+import muscaa.clichat.shared.command.CommandResult;
 import muscaa.clichat.shared.network.chat.packets.PacketCommand;
 
-public class ClientCommander extends BasicCommander<ClientCommander, IClientCommandSource> {
+public class ClientCommander extends AbstractCommander<ClientCommander, IClientCommandSource> {
 	
-	public CompletableFuture<Boolean> commandFuture;
+	private CompletableFuture<Integer> commandFuture;
+	private int lastExitCode;
+	private String lastError;
 	
 	@Override
 	public void init() {
@@ -23,28 +25,46 @@ public class ClientCommander extends BasicCommander<ClientCommander, IClientComm
 		command(new CommandDisconnect());
 	}
 	
-	public void execute(IClientCommandSource source, String input) {
+	@Override
+	public CommandResult execute(IClientCommandSource source, String input) {
 		try {
 			IArgumentInput in = new StringArgumentInput(input);
 			ICommand command = commands.get(in.peek());
+			
 			if (command != null) {
-				super.execute(source, in);
-				return;
+				lastExitCode = execute(source, in);
+			} else {
+				commandFuture = new CompletableFuture<>();
+				CLIChatClient.INSTANCE.network.send(new PacketCommand(source.isCommandMode(), input));
+				lastExitCode = commandFuture.get();
 			}
-		} catch (CommanderException e) {
-			source.error(e.getMessage());
-			return;
+			
+			lastError = null;
+		} catch (Exception e) {
+			lastExitCode = FAIL;
+			lastError = e.getMessage();
+			
+			source.error(lastError);
 		}
 		
-		commandFuture = new CompletableFuture<>();
-		
-		CLIChatClient.INSTANCE.network.send(new PacketCommand(source.direct(), input));
-		
-		try {
-			commandFuture.get();
-		} catch (InterruptedException | ExecutionException e) {
-			source.error(e.getMessage());
-		}
 		commandFuture = null;
+		
+		return new CommandResult(lastExitCode, lastError);
+	}
+	
+	public void complete(int exitCode) {
+		commandFuture.complete(exitCode);
+	}
+	
+	public void complete(String error) {
+		commandFuture.completeExceptionally(new CommanderException(error));
+	}
+	
+	public int getLastExitCode() {
+		return lastExitCode;
+	}
+	
+	public String getLastError() {
+		return lastError;
 	}
 }
