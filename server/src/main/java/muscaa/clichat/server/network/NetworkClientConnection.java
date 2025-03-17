@@ -39,7 +39,7 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 	public void login(String name) {
 		if (this.name != null) return;
 		
-		if (name.equalsIgnoreCase(CLIChatServer.INSTANCE.console.getName()) || !CLIChatServer.NAME_PATTERN.matcher(name).matches()) {
+		if (name.equalsIgnoreCase(CLIChatServer.INSTANCE.consoleCommander.getConsole().getName()) || !CLIChatServer.NAME_PATTERN.matcher(name).matches()) {
 			disconnect("Invalid name!");
 			return;
 		}

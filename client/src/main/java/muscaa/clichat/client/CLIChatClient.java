@@ -48,7 +48,7 @@ public class CLIChatClient {
 				.reset());
 		Utils.print(Ansi.ansi()
 				.fgBlue().a("Type '")
-				.fgBrightBlue().a("/dc")
+				.fgBrightBlue().a("//dc")
 				.fgBlue().a("' to disconnect")
 				.reset());
         

@@ -15,7 +15,7 @@ public class ChatUtils {
 	public static void broadcast(Object o, BooleanFunc1<NetworkClientConnection> filterFunc) {
 		String line = Objects.toString(o);
 		
-		CLIChatServer.INSTANCE.console.addChatLine(line);
+		CLIChatServer.INSTANCE.consoleCommander.getConsole().addChatLine(line);
 		
     	Set<UUID> keys = CLIChatServer.INSTANCE.network.getUUIDKeys();
     	if (filterFunc != null) {

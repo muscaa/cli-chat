@@ -4,9 +4,8 @@ import java.util.regex.Pattern;
 
 import org.jline.jansi.Ansi;
 
-import muscaa.clichat.server.command.IServerCommandSource;
 import muscaa.clichat.server.command.ServerCommander;
-import muscaa.clichat.server.command.ServerConsoleCommandSource;
+import muscaa.clichat.server.command.console.ConsoleCommander;
 import muscaa.clichat.server.network.NetworkClientConnection;
 import muscaa.clichat.server.network.NetworkServer;
 import muscaa.clichat.server.utils.ChatUtils;
@@ -21,7 +20,7 @@ public class CLIChatServer {
 	private Thread mainThread;
 	public boolean inChat;
 	public ServerCommander commander;
-	public IServerCommandSource console;
+	public ConsoleCommander consoleCommander;
 	public NetworkServer network;
 	
 	public void start() throws Exception {
@@ -33,7 +32,7 @@ public class CLIChatServer {
 		
 		inChat = true;
 		commander = new ServerCommander();
-		console = new ServerConsoleCommandSource();
+		consoleCommander = new ConsoleCommander();
 		
 		network = new NetworkServer(port);
 		network.start(true);
@@ -56,17 +55,23 @@ public class CLIChatServer {
 				if (line == null) break;
 				
 				if (!inChat) {
-					commander.execute(console, line);
+					consoleCommander.execute(line);
 					continue;
 				}
 				
-				String command = commander.getChatCommand(line);
+				String command = consoleCommander.getChatCommand(line);
 				if (command != null) {
-					commander.execute(console, command);
+					consoleCommander.execute(command);
 					continue;
+				} else {
+					command = consoleCommander.getChatCommandServer(line);
+					if (command != null) {
+						consoleCommander.executeServer(command);
+						continue;
+					}
 				}
 				
-				ChatUtils.message(console.getName(), line);
+				ChatUtils.message(consoleCommander.getConsole().getName(), line);
 			}
 		} catch (IllegalStateException e) {}
 		
