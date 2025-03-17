@@ -3,7 +3,7 @@ package muscaa.clichat.server.command;
 import org.jline.jansi.Ansi;
 
 import muscaa.clichat.server.CLIChatServer;
-import muscaa.clichat.shared.command.AbstractConsoleCommandSource;
+import muscaa.clichat.shared.command.console.AbstractConsoleCommandSource;
 import muscaa.clichat.shared.utils.Utils;
 
 public class ServerConsoleCommandSource extends AbstractConsoleCommandSource implements IServerCommandSource {

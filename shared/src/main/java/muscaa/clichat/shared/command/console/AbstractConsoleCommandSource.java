@@ -1,5 +1,6 @@
-package muscaa.clichat.shared.command;
+package muscaa.clichat.shared.command.console;
 
+import muscaa.clichat.shared.command.ISharedCommandSource;
 import muscaa.clichat.shared.utils.Utils;
 
 public abstract class AbstractConsoleCommandSource implements ISharedCommandSource {
@@ -11,16 +12,16 @@ public abstract class AbstractConsoleCommandSource implements ISharedCommandSour
 	
 	@Override
 	public void info(Object o) {
-		Utils.print(Utils.info(o));
+		log(Utils.info(o));
 	}
 	
 	@Override
 	public void warn(Object o) {
-		Utils.print(Utils.warn(o));
+		log(Utils.warn(o));
 	}
 	
 	@Override
 	public void error(Object o) {
-		Utils.print(Utils.error(o));
+		log(Utils.error(o));
 	}
 }

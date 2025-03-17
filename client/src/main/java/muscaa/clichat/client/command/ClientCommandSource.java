@@ -1,9 +1,9 @@
 package muscaa.clichat.client.command;
 
 import muscaa.clichat.client.CLIChatClient;
-import muscaa.clichat.shared.command.AbstractConsoleCommandSource;
+import muscaa.clichat.shared.command.console.AbstractConsoleCommandSource;
 
-public class ClientConsoleCommandSource extends AbstractConsoleCommandSource implements IClientCommandSource {
+public class ClientCommandSource extends AbstractConsoleCommandSource {
 	
 	@Override
 	public boolean isCommandMode() {
