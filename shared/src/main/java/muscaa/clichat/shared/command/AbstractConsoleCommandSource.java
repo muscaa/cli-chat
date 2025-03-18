@@ -1,6 +1,5 @@
-package muscaa.clichat.shared.command.console;
+package muscaa.clichat.shared.command;
 
-import muscaa.clichat.shared.command.ISharedCommandSource;
 import muscaa.clichat.shared.utils.Utils;
 
 public abstract class AbstractConsoleCommandSource implements ISharedCommandSource {

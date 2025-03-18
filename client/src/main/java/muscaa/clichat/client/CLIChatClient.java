@@ -2,7 +2,7 @@ package muscaa.clichat.client;
 
 import org.jline.jansi.Ansi;
 
-import muscaa.clichat.client.command.ClientCommander;
+import muscaa.clichat.client.command.ConsoleCommander;
 import muscaa.clichat.client.network.NetworkClient;
 import muscaa.clichat.shared.network.chat.packets.PacketChatMessage;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
@@ -14,7 +14,7 @@ public class CLIChatClient {
 	
 	private Thread mainThread;
 	public boolean inChat;
-	public ClientCommander commander;
+	public ConsoleCommander consoleCommander;
 	public NetworkClient network;
 	
 	public void start() throws Exception {
@@ -28,7 +28,7 @@ public class CLIChatClient {
 				.reset()));
 		
 		inChat = true;
-		commander = new ClientCommander();
+		consoleCommander = new ConsoleCommander();
 		
 		network = new NetworkClient();
 		network.connect(host, port);
@@ -60,18 +60,18 @@ public class CLIChatClient {
 				if (line == null) break;
 				
 				if (!inChat) {
-					commander.execute(line);
+					consoleCommander.executeClient(line);
 					continue;
 				}
 				
-				String command = commander.getChatCommand(line);
+				String command = consoleCommander.getChatCommandClient(line);
 				if (command != null) {
-					commander.execute(command);
+					consoleCommander.executeClient(command);
 					continue;
 				} else {
-					command = commander.getChatCommandServer(line);
+					command = consoleCommander.getChatCommandServer(line);
 					if (command != null) {
-						commander.executeServer(command);
+						consoleCommander.executeServer(command);
 						continue;
 					}
 				}

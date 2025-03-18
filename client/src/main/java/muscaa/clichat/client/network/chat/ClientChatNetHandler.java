@@ -24,11 +24,11 @@ public class ClientChatNetHandler extends ClientCommonNetHandler implements ICli
 	
 	@Override
 	public void onPacketCommandExitCode(PacketCommandExitCode packet) {
-		CLIChatClient.INSTANCE.commander.completeServer(packet.getExitCode());
+		CLIChatClient.INSTANCE.consoleCommander.completeServer(packet.getExitCode());
 	}
 	
 	@Override
 	public void onPacketCommandError(PacketCommandError packet) {
-		CLIChatClient.INSTANCE.commander.completeServer(packet.getError());
+		CLIChatClient.INSTANCE.consoleCommander.completeServer(packet.getError());
 	}
 }

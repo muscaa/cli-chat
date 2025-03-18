@@ -1,7 +1,4 @@
-package muscaa.clichat.shared.command.console;
-
-import muscaa.clichat.shared.command.AbstractCommander;
-import muscaa.clichat.shared.command.CommandResult;
+package muscaa.clichat.shared.command;
 
 public abstract class AbstractConsoleCommander<C extends AbstractConsoleCommander<C, S>, S extends AbstractConsoleCommandSource> extends AbstractCommander<C, S> {
 	
@@ -11,21 +8,27 @@ public abstract class AbstractConsoleCommander<C extends AbstractConsoleCommande
 	protected String lastError;
 	
 	public AbstractConsoleCommander(S console) {
-		super("//");
-		
 		this.console = console;
 	}
 	
-	@Override
-	public CommandResult execute(S source, String input) {
-		CommandResult result = super.execute(source, input);
+	protected CommandResult result(CommandResult result) {
 		lastExitCode = result.exitCode;
 		lastError = result.error;
 		return result;
 	}
 	
-	public CommandResult execute(String input) {
-		return execute(console, input);
+	public CommandResult executeClient(String input) {
+		return result(execute(console, input));
+	}
+	
+	public abstract CommandResult executeServer(String input);
+	
+	public String getChatCommandClient(String input) {
+		return input.startsWith("//") ? input.substring(2) : null;
+	}
+	
+	public String getChatCommandServer(String input) {
+		return input.startsWith("/") && !input.startsWith("//") ? input.substring(1) : null;
 	}
 	
 	public S getConsole() {

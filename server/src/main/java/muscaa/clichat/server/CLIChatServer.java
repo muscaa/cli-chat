@@ -4,8 +4,8 @@ import java.util.regex.Pattern;
 
 import org.jline.jansi.Ansi;
 
+import muscaa.clichat.server.command.ConsoleCommander;
 import muscaa.clichat.server.command.ServerCommander;
-import muscaa.clichat.server.command.console.ConsoleCommander;
 import muscaa.clichat.server.network.NetworkClientConnection;
 import muscaa.clichat.server.network.NetworkServer;
 import muscaa.clichat.server.utils.ChatUtils;
@@ -55,13 +55,13 @@ public class CLIChatServer {
 				if (line == null) break;
 				
 				if (!inChat) {
-					consoleCommander.execute(line);
+					consoleCommander.executeClient(line);
 					continue;
 				}
 				
-				String command = consoleCommander.getChatCommand(line);
+				String command = consoleCommander.getChatCommandClient(line);
 				if (command != null) {
-					consoleCommander.execute(command);
+					consoleCommander.executeClient(command);
 					continue;
 				} else {
 					command = consoleCommander.getChatCommandServer(line);

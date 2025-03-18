@@ -6,16 +6,8 @@ import fluff.commander.argument.StringArgumentInput;
 
 public abstract class AbstractCommander<C extends AbstractCommander<C, S>, S extends ISharedCommandSource> extends Commander<C, S> {
 	
-	protected final String chatCommandPrefix;
-	
-	public AbstractCommander(String chatCommandPrefix) {
-		super(false, "cli");
-		
-		this.chatCommandPrefix = chatCommandPrefix;
-	}
-	
 	public AbstractCommander() {
-		this("/");
+		super(false, "cli");
 	}
 	
 	@Override
@@ -40,9 +32,5 @@ public abstract class AbstractCommander<C extends AbstractCommander<C, S>, S ext
 		}
 		
 		return new CommandResult(exitCode, error);
-	}
-	
-	public String getChatCommand(String input) {
-		return input.startsWith(chatCommandPrefix) ? input.substring(chatCommandPrefix.length()) : null;
 	}
 }
