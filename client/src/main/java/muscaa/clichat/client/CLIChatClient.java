@@ -1,5 +1,7 @@
 package muscaa.clichat.client;
 
+import java.util.concurrent.TimeUnit;
+
 import org.jline.jansi.Ansi;
 
 import muscaa.clichat.client.command.ConsoleCommander;
@@ -38,7 +40,17 @@ public class CLIChatClient {
 				.reset());
 		
 		network.send(new PacketLogin(name));
-		if (!waitForProfile()) return;
+		
+		try {
+			String profile = network.getNameFuture().get(3, TimeUnit.SECONDS);
+			
+			if (profile == null) return;
+		} catch (Exception e) {
+			network.disconnect();
+			
+			Utils.print(Utils.error("Timed out while waiting for profile."));
+			return;
+		}
 		
 		Utils.print(Ansi.ansi()
 				.fgBlue().a("Connected to ")
@@ -85,33 +97,5 @@ public class CLIChatClient {
 	
 	public void stop() {
 		mainThread.interrupt();
-	}
-	
-	private boolean waitForProfile() {
-		long connectionTime = System.currentTimeMillis();
-		
-		// TODO switch to wait-notify for better performance
-		
-    	while (true) {
-    		if (!network.isConnected()) break;
-    		if (network.getName() != null) break;
-    		if (System.currentTimeMillis() > connectionTime + 3000) break;
-    		
-    		try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {}
-    	}
-    	
-		if (!network.isConnected()) return false;
-		
-		if (network.getName() == null) {
-			network.disconnect();
-			
-			Utils.print(Utils.error("Timed out while waiting for profile."));
-			
-			return false;
-		}
-		
-		return true;
 	}
 }

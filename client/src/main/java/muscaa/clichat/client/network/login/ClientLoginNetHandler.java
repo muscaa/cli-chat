@@ -8,6 +8,13 @@ import muscaa.clichat.shared.network.login.packets.PacketProfile;
 public class ClientLoginNetHandler extends ClientCommonNetHandler implements IClientLoginNetHandler {
 	
 	@Override
+	public void onDisconnect() {
+		super.onDisconnect();
+		
+		client.setName(null);
+	}
+	
+	@Override
 	public void onPacketProfile(PacketProfile packet) {
 		client.setName(packet.getName());
 		
