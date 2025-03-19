@@ -2,6 +2,6 @@ ext.subName = "shared"
 
 dependencies {
 	api "com.github.muscaa:fluff-network:1.0.7"
-	api "com.github.muscaa:fluff-commander:1.0.19"
+	api "com.github.muscaa:fluff-commander:1.0.20"
 	api "org.jline:jline:3.29.0"
 }
