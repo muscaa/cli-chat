@@ -1,16 +1,16 @@
 package muscaa.clichat.client.network;
 
 import fluff.network.packet.PacketContext;
-import muscaa.clichat.client.network.chat.IClientChatNetHandler;
+import muscaa.clichat.client.network.cli.IClientChatNetHandler;
 import muscaa.clichat.client.network.common.IClientCommonNetHandler;
 import muscaa.clichat.client.network.login.IClientLoginNetHandler;
 import muscaa.clichat.shared.network.SharedContexts;
-import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
-import muscaa.clichat.shared.network.chat.packets.PacketCommand;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandError;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandOutput;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandExitCode;
-import muscaa.clichat.shared.network.chat.packets.PacketChatMessage;
+import muscaa.clichat.shared.network.cli.packets.PacketChatLine;
+import muscaa.clichat.shared.network.cli.packets.PacketChatMessage;
+import muscaa.clichat.shared.network.cli.packets.PacketCommand;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandError;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandExitCode;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandOutput;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
 
@@ -34,10 +34,10 @@ public class ClientContexts {
 			;
 	
 	//
-	// CHAT
+	// CLI
 	//
-	public static final PacketContext<IClientChatNetHandler> CHAT =
-			new PacketContext<IClientChatNetHandler>(SharedContexts.CHAT)
+	public static final PacketContext<IClientChatNetHandler> CLI =
+			new PacketContext<IClientChatNetHandler>(SharedContexts.CLI)
 					.extend(COMMON)
 					.registerOutbound(200, PacketChatMessage.class)
 					.registerInbound(201, PacketChatLine::new, IClientChatNetHandler::onPacketChatLine)

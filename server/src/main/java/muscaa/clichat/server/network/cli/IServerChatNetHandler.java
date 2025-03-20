@@ -1,9 +1,9 @@
-package muscaa.clichat.server.network.chat;
+package muscaa.clichat.server.network.cli;
 
 import muscaa.clichat.server.network.common.IServerCommonNetHandler;
-import muscaa.clichat.shared.network.chat.IChatNetHandler;
-import muscaa.clichat.shared.network.chat.packets.PacketCommand;
-import muscaa.clichat.shared.network.chat.packets.PacketChatMessage;
+import muscaa.clichat.shared.network.cli.IChatNetHandler;
+import muscaa.clichat.shared.network.cli.packets.PacketChatMessage;
+import muscaa.clichat.shared.network.cli.packets.PacketCommand;
 
 public interface IServerChatNetHandler extends IServerCommonNetHandler, IChatNetHandler {
 	

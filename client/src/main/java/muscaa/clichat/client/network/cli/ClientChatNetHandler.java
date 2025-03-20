@@ -1,13 +1,13 @@
-package muscaa.clichat.client.network.chat;
+package muscaa.clichat.client.network.cli;
 
 import org.jline.jansi.Ansi;
 
 import muscaa.clichat.client.CLIChatClient;
 import muscaa.clichat.client.network.common.ClientCommonNetHandler;
-import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandError;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandOutput;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandExitCode;
+import muscaa.clichat.shared.network.cli.packets.PacketChatLine;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandError;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandExitCode;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandOutput;
 import muscaa.clichat.shared.utils.Utils;
 
 public class ClientChatNetHandler extends ClientCommonNetHandler implements IClientChatNetHandler {

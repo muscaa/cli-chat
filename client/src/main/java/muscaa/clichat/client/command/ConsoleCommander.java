@@ -6,7 +6,7 @@ import muscaa.clichat.client.CLIChatClient;
 import muscaa.clichat.client.command.commands.CommandDisconnect;
 import muscaa.clichat.shared.command.AbstractConsoleCommander;
 import muscaa.clichat.shared.command.CommandResult;
-import muscaa.clichat.shared.network.chat.packets.PacketCommand;
+import muscaa.clichat.shared.network.cli.packets.PacketCommand;
 
 public class ConsoleCommander extends AbstractConsoleCommander<ConsoleCommander, ConsoleCommandSource> {
 	

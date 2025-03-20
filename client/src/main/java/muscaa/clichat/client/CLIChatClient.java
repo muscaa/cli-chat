@@ -6,7 +6,7 @@ import org.jline.jansi.Ansi;
 
 import muscaa.clichat.client.command.ConsoleCommander;
 import muscaa.clichat.client.network.NetworkClient;
-import muscaa.clichat.shared.network.chat.packets.PacketChatMessage;
+import muscaa.clichat.shared.network.cli.packets.PacketChatMessage;
 import muscaa.clichat.shared.network.login.packets.PacketLogin;
 import muscaa.clichat.shared.utils.Utils;
 

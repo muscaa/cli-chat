@@ -1,4 +1,4 @@
-package muscaa.clichat.shared.network.chat;
+package muscaa.clichat.shared.network.cli;
 
 import muscaa.clichat.shared.network.common.ICommonNetHandler;
 

@@ -1,4 +1,4 @@
-package muscaa.clichat.shared.network.chat.packets;
+package muscaa.clichat.shared.network.cli.packets;
 
 import java.io.IOException;
 

@@ -14,10 +14,10 @@ import fluff.network.server.AbstractServer;
 import fluff.network.server.modules.TimeoutModule;
 import muscaa.clichat.server.CLIChatServer;
 import muscaa.clichat.server.command.IServerCommandSource;
-import muscaa.clichat.server.network.chat.ServerChatNetHandler;
+import muscaa.clichat.server.network.cli.ServerChatNetHandler;
 import muscaa.clichat.server.utils.ChatUtils;
-import muscaa.clichat.shared.network.chat.packets.PacketChatLine;
-import muscaa.clichat.shared.network.chat.packets.PacketCommandOutput;
+import muscaa.clichat.shared.network.cli.packets.PacketChatLine;
+import muscaa.clichat.shared.network.cli.packets.PacketCommandOutput;
 import muscaa.clichat.shared.network.common.packets.PacketDisconnect;
 import muscaa.clichat.shared.network.login.packets.PacketProfile;
 import muscaa.clichat.shared.utils.Utils;
@@ -67,7 +67,7 @@ public class NetworkClientConnection extends AbstractClientConnection implements
 		
 		ChatUtils.broadcast(Utils.info(name + " has joined."));
 		
-		setContext(ServerContexts.CHAT, new ServerChatNetHandler());
+		setContext(ServerContexts.CLI, new ServerChatNetHandler());
 	}
 	
 	@Override

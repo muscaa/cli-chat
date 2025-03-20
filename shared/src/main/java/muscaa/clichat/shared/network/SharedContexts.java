@@ -1,7 +1,7 @@
 package muscaa.clichat.shared.network;
 
 import fluff.network.packet.PacketContext;
-import muscaa.clichat.shared.network.chat.IChatNetHandler;
+import muscaa.clichat.shared.network.cli.IChatNetHandler;
 import muscaa.clichat.shared.network.common.ICommonNetHandler;
 import muscaa.clichat.shared.network.common.packets.PacketDisconnect;
 import muscaa.clichat.shared.network.login.ILoginNetHandler;
@@ -25,10 +25,10 @@ public class SharedContexts {
 			;
 	
 	//
-	// CHAT
+	// CLI
 	//
-	public static final PacketContext<IChatNetHandler> CHAT =
-			new PacketContext<IChatNetHandler>("chat_context")
+	public static final PacketContext<IChatNetHandler> CLI =
+			new PacketContext<IChatNetHandler>("cli_context")
 					.extend(COMMON)
 			;
 }
